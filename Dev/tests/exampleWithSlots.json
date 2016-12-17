@@ -1,0 +1,53 @@
+{
+  "session": {
+    "sessionId": "SessionId.ba21fd02-cd81-4429-b118-ed95d957394a",
+    "application": {
+      "applicationId": "amzn1.ask.skill.55cd6a70-9b62-49bb-834d-e3de3aa70975"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AEDF4RR4YTCWLYVXK74UYADVSZ7VW7XFJG4WZKYLE44ZJUMRGCODWVS33VJAF3HP75IAVJG2JDF46DJQMMJGFLU4MW5NXNVIO4CWGGXBKCPPROIVSSZQUJY4AMCDHBRIHNXZUYKQHJZQWKBDFCDOK6SLDMUYKIKW33PV7A2UBCFVF5FD6NDSNANX32AQUVCKTIPEJVJTTL2TG2Y"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.1993ce94-5a06-4c16-9921-edf1e192faf4",
+    "locale": "en-US",
+    "timestamp": "2016-12-17T16:06:54Z",
+    "intent": {
+      "name": "QuestionIntent",
+      "slots": {
+        "HelperVerb": {
+          "name": "HelperVerb",
+          "value": "do"
+        },
+        "Adjective": {
+          "name": "Adjective"
+        },
+        "CatchAll": {
+          "name": "CatchAll"
+        },
+        "Interrogative": {
+          "name": "Interrogative",
+          "value": "why"
+        },
+        "Article": {
+          "name": "Article"
+        },
+        "Verb": {
+          "name": "Verb",
+          "value": "fly"
+        },
+        "Pronoun": {
+          "name": "Pronoun"
+        },
+        "Subject": {
+          "name": "Subject",
+          "value": "birds"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

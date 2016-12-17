@@ -1,0 +1,24 @@
+{
+  "session": {
+    "sessionId": "SessionId.f9b0c349-37c8-43ec-afda-d0c0d49ee00c",
+    "application": {
+      "applicationId": "amzn1.ask.skill.49d72aaf-5813-45f0-8a39-3abc7e47e11d"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.AEWC33O4T5ICE7L7CDLBWS2YOOS2FU7OX3MM6C5COXQPZGCZZ4KM5IK3XYJ3AMSK24Z3HY2NXFJ7PMAWQBEOCCHWGYOMQRJSU6BNG7VKULQ7M2DECRULXLRXZUVEWWVFYWR2ZLFNXQE3C66WBX4OFL3PI5QWX2O2IX7GKDSLLBRYV2WWXN5DXSXVH74EVVY77PXSQH4AIXYUM5Q"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.4df85388-8b5c-4a2c-a87b-97fdd1ef7104",
+    "locale": "en-US",
+    "timestamp": "2016-12-17T16:03:36Z",
+    "intent": {
+      "name": "FleeIntent",
+      "slots": {}
+    }
+  },
+  "version": "1.0"
+}
