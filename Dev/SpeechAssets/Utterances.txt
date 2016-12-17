@@ -1,0 +1,15 @@
+AttackIntent attack
+AttackIntent go ahead
+AttackIntent start climbing down the cliff
+DefendIntent defend
+EquipIntent put on the climbing gear
+EquipIntent equip
+GatherIntent gather
+GatherIntent pick up
+FleeIntent run
+FleeIntent get out of here
+FollowIntent follow
+PlaycardIntent play card
+PlaycardIntent play a holerith card
+LookIntent Look
+LookIntent Look Around

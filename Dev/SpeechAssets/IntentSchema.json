@@ -1,0 +1,17 @@
+{
+  "intents": [
+    {"intent": "AttackIntent"},
+    {"intent": "DefendIntent"},
+    {"intent": "EquipIntent"},
+    {"intent": "GatherIntent"},
+    {"intent": "FleeIntent"},
+    {"intent": "FollowIntent"},
+    {"intent": "PlaycardIntent"},
+    {"intent": "LookIntent"},
+    {"intent": "AMAZON.HelpIntent"},
+        {"intent": "AMAZON.YesIntent"},
+        {"intent": "AMAZON.NoIntent"},
+    {"intent": "AMAZON.StopIntent"},
+    {"intent": "AMAZON.CancelIntent"}
+  ]
+}
