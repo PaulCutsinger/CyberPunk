@@ -1,0 +1,40 @@
+{"intents": [
+    {"intent": "ImmortalFountainIntent",
+     	"slots":
+     		[
+              {"name" : "ImmortalFountain", "type" : "ALIASES_FOR_IMMORTAL_FOUNTAIN"},
+              {"name" : "ImmortalFountainNPC", "type" : "NPCS_FOR_IMMORTAL_FOUNTAIN"},
+              {"name" : "Action", "type" : "LIST_OF_ACTIONS"}
+            ]},
+    {"intent": "PerpetualCampfireIntent",
+     	"slots":
+     		[
+              {"name" : "PerpetualCampfire", "type" : "ALIASES_FOR_PERPETUAL_CAMPFIRE"},
+              {"name" : "PerpetualCampfireNPC", "type" : "NPCS_FOR_PERPETUAL_CAMPFIRE"},
+              {"name" : "Action", "type" : "LIST_OF_ACTIONS"}
+            ]},
+    {"intent": "ShopIntent",
+     	"slots":
+     		[
+              {"name" : "Shop", "type" : "ALIASES_FOR_SHOP"},
+              {"name" : "ShopNPC", "type" : "NPCS_FOR_SHOP"},
+              {"name" : "Action", "type" : "LIST_OF_ACTIONS"}
+            ]},
+    {"intent": "MetaCircleIntent",
+      "slots":
+        [
+              {"name" : "MetaCircle", "type" : "ALIASES_FOR_META_CIRCLE"},
+              {"name" : "MetaCircleNPC", "type" : "NPCS_FOR_META_CIRCLE"},
+              {"name" : "Action", "type" : "LIST_OF_ACTIONS"}
+            ]},
+    {"intent": "NameThatTuneIntent",
+     	"slots":
+     		[
+              {"name" : "Tune", "type" : "LIST_OF_TUNES"}
+            ]},
+    {"intent": "AMAZON.RepeatIntent"},
+    {"intent": "AMAZON.HelpIntent"},
+    {"intent": "AMAZON.StopIntent"},
+    {"intent": "AMAZON.CancelIntent"}
+  ]
+}

@@ -5,8 +5,13 @@
 'use strict';
 
 const Alexa = require('alexa-sdk');
-const Alexa = require('quest.js');
-const Alexa = require('metacircle.js');
+//const Alexa = require('quest.js');
+//const Alexa = require('metacircle.js');
+
+var states = {
+    inQuest: '_inQuest',                   // in a specific quest
+    inQuestChooser: '_inQuestChooser'      // choosing a quest
+};
 
 const APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
 var AWS = require('aws-sdk');
@@ -17,13 +22,80 @@ var next;
 var languageStrings;
 var scenes;
 
-const handlers = {
+var newSessionHandler = {
+  'LaunchRequest': function () {
+    console.log("in launch, newsession");
+    //this.handler.state = states.inQuest;
+
+    //TODO restore quest if saved
+
+    this.emit(':ask', 'welcome to the cyber dome. where would you like to start?','');
+  },
+  'PickAQuestIntent': function () {
+    console.log("newsession , pick a quest");
+    this.handler.state = states.inQuest;
+
+    var scene = isValidSlot(this.event.request, "SCENE");
+    var quest = isValidSlot(this.event.request, "QUEST");
+
+    console.log("scene "+scene);
+    console.log("quest "+quest);
+    console.log("in function "+this.attributes);
+    if (scene && quest) {
+      console.log("both quest and scene");
+      routeToQuestAndScene.call(this, "quest_"+quest, "scene_"+scene );
+    } else if (scene) {
+      console.log("just scene");
+      routeToScene.call(this,"scene_"+scene );
+    } else if (quest) {
+      console.log("just quest");
+      routeToQuest.call(this, "quest_"+quest );
+    }
+
+
+    this.emitWithState('LaunchRequest');
+  },
+  'AMAZON.HelpIntent': function () {
+    console.log("newsession,help");
+    this.handler.state = states.inQuest;
+    this.emitWithState('AMAZON.HelpIntent');
+  },
+  'AMAZON.CancelIntent': function () {
+      this.emit(':tell', "goodbye");
+  },
+  'AMAZON.StopIntent': function () {
+      this.emit(':tell', "goodbye");
+  },
+  'Unhandled': function () {
+    console.log("newsession,Unhandled");
+    this.handler.state = states.inQuest;
+    this.emit(":tell",'Unhandled');
+  },
+};
+
+var inQuestChooserHandlers = Alexa.CreateStateHandler(states.inQuestChooser, {
     'LaunchRequest': function () {
-        console.log("in launch");
+        console.log("in launch, inQuestChooser");
         //console.log(scenes);
-        this.emit('DESCRIBE');
+        this.emitWithState('DESCRIBE');
+    },
+    'Unhandled': function () {
+        this.emit(":ask", "Unhandled", "Unhandled");
+        //this.emit(':tell', this.t('STOP_MESSAGE'));
+    },
+});
+
+var inQuestHandlers = Alexa.CreateStateHandler(states.inQuest, {
+    'LaunchRequest': function () {
+        console.log("in launch, inQuest");
+        //console.log(scenes);
+        this.emitWithState('DESCRIBE');
+    },
+    'PickAQuestIntent': function () {  
+      this.emit('PickAQuestIntent');
     },
     'DESCRIBE': function () {
+       console.log("in describe, inQuest");
         debug.call(this,'DESCRIBE');
         addSpeech.call(this,".DESCRIBE.text");
         //route.call(this, ".DECSRIBE"),
@@ -43,7 +115,7 @@ const handlers = {
         addSpeech.call(this,".GAME_TRANSISTION.text");
         //set the next scene and decribe it
         this.attributes['currentScene']=this.t(currentQuestScene.call(this)+".GAME_TRANSISTION.next");
-        this.emit('DESCRIBE');
+        this.emitWithState('DESCRIBE');
     },
     'ATTACK': function () {
         debug.call(this,'ATTACK');
@@ -135,25 +207,65 @@ const handlers = {
         this.emit(':ask', "debug on, what would you like to do?", "debug on, what would you like to do?");
     },
     'AMAZON.CancelIntent': function () {
-        this.emit(':tell', this.t('STOP_MESSAGE'));
+        this.emit('AMAZON.StopIntent');
     },
     'AMAZON.StopIntent': function () {
-        this.emit(':tell', this.t('STOP_MESSAGE'));
+        this.emit('AMAZON.StopIntent');
     },
     'SessionEndedRequest': function () {
-        this.emit(':tell', this.t('STOP_MESSAGE'));
+        this.emit('AMAZON.StopIntent');
     },
     'Unhandled': function () {
-        this.emit('TRANSISTION');
+        this.emitWithState('TRANSISTION');
         //this.emit(':tell', this.t('STOP_MESSAGE'));
     },
-};
+});
+
+
+function isValidSlot(request, slotName){
+        var slot = request.intent.slots[slotName];
+        var slotValue;
+
+        //if we have a slot, get the text and store it into speechOutput
+        if (slot && slot.value) {
+            //we have a value in the slot
+            slotValue = slot.value.toLowerCase();
+            return slotValue;
+        } else {
+            //we didn't get a value in the slot.
+            return false;
+        }
+}
+
+function routeToQuest(questid){
+  console.log("in function "+this.attributes);
+  if(this.attributes['currentQuest']==undefined){this.attributes['currentQuest']='quest_1';}
+  if(this.attributes['currentScene']==undefined){this.attributes['currentScene']='scene_1';}
+    this.attributes['currentQuest']=questid;
+    this.attributes['currentScene']='scene_1'
+    return this.attributes['currentQuest']+"."+this.attributes['currentScene'];
+}
+
+function routeToQuestAndScene(questid, sceneid){
+  if(this.attributes['currentQuest']==undefined){this.attributes['currentQuest']='quest_1';}
+  if(this.attributes['currentScene']==undefined){this.attributes['currentScene']='scene_1';}
+    this.attributes['currentQuest']=questid;
+    this.attributes['currentScene']=sceneid;
+    return this.attributes['currentQuest']+"."+this.attributes['currentScene'];
+}
+
+function routeToScene(sceneid){
+  if(this.attributes['currentQuest']==undefined){this.attributes['currentQuest']='quest_1';}
+  if(this.attributes['currentScene']==undefined){this.attributes['currentScene']='scene_1';}
+    this.attributes['currentScene']=sceneid;
+    return this.attributes['currentQuest']+"."+this.attributes['currentScene'];
+}
 
 function route(currentScene, next){
   console.log('route');
   if(next==null || next ==""){next = ".TRANSISTION.next"}
   console.log(this.t(currentScene+next));
-  this.emit(this.t(currentScene+next));
+  this.emitWithState(this.t(currentScene+next));
 }
 
 function addSpeech(text){
@@ -184,9 +296,10 @@ function currentQuestScene(){
 exports.handler = (event, context) => {
     var alexa = Alexa.handler(event, context);
     alexa.APP_ID = APP_ID;
+
     initialize(event, () => {
         alexa.resources = languageStrings;
-        alexa.registerHandlers(handlers);
+        alexa.registerHandlers(newSessionHandler, inQuestHandlers, inQuestChooserHandlers);
         alexa.execute();
     });
 }
@@ -213,7 +326,8 @@ function readDDB (callback) {
         if (err) {
             console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
         } else {
-            console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
+            console.log("GetItem succeeded");
+            //console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
             callback(data);
         }
     });
@@ -231,7 +345,9 @@ function setLanguageStrings(data){
 
 
 //TODO
-// Random fillers
+//BUGS" STOP_MESSAGE
+
+//Random fillers
 //
 //
 // NOT_UNDERSTOOD > PLAYER OPTION
@@ -245,6 +361,11 @@ function setLanguageStrings(data){
 // END > QUEST CANCELED
 // System crash
 // You implode into 1000 pieces
+
+//add metacircle to main GAME
+//instrument
+//inventory System
+
 
 
 // ATTACK attack
